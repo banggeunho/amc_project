@@ -1,6 +1,6 @@
 # 아산병원 프로젝트 (웨어러블을 이용한 실시간 환자 상태 모니터링 서비스)
 
-[comment]: <> ([![Hits]&#40;https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fkor45cw%2FRetrofit-tutorial&#41;]&#40;https://hits.seeyoufarm.com&#41;)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbanggeunho%2Famc_project&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 스마트워치를 통해 위험 환자로부터 실시간 생체 및 활동 신호를 받아오는 Wear OS 어플리케이션
 
@@ -69,3 +69,7 @@ NOTE
 ```
 
 ## Output
+![Screenshot_20220822_034911](https://user-images.githubusercontent.com/72342550/185806850-befe259f-e17a-465c-a7b1-d24396819740.png)
+![Screenshot_20220822_034954](https://user-images.githubusercontent.com/72342550/185806852-1a8130a0-24a7-46b5-b0ce-66a92a4f88b4.png)
+![Screenshot_20220822_035516](https://user-images.githubusercontent.com/72342550/185806854-ed580e46-4937-4f3d-a7af-a89509e0a12e.png)
+![Screenshot_20220822_035608](https://user-images.githubusercontent.com/72342550/185806856-19beabfe-c5c3-4e1b-88ae-252ae087efea.png)
