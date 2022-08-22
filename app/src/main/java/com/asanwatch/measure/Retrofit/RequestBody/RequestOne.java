@@ -3,8 +3,6 @@ package com.asanwatch.measure.Retrofit.RequestBody;
 import java.util.HashMap;
 
 public class RequestOne {
-//    @Serial
-
 
     public final String value;
     public final String frame_num;

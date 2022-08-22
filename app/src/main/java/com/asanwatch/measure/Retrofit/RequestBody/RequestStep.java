@@ -3,8 +3,6 @@ package com.asanwatch.measure.Retrofit.RequestBody;
 import java.util.HashMap;
 
 public class RequestStep {
-//    @Serial
-
 
     public final String value;
     public final String step_count;

@@ -3,7 +3,7 @@ package com.asanwatch.measure.Retrofit.RequestBody;
 import java.util.HashMap;
 
 public class RequestThree {
-//    @Serial
+
     public final String z;
     public final String y;
     public final String x;
