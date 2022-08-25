@@ -5,21 +5,20 @@ import com.asanwatch.measure.Retrofit.RequestBody.RequestHR;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestOne;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestStep;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestThree;
+import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface RetroBaseApiService {
 
-    final String Base_URL = "http://172.30.1.60:5002";
+    final String Base_URL = "http://210.102.178.105:7000";
 
-//    @GET("/posts/{userId}")
-//    Call<ResponseGet> getFirst(@Path("userId") String id);
-//
-//    @GET("/posts")
-//    Call<List<ResponseGet>> getSecond(@Query("userId") String id);
-//
+    @GET("/api/watch/{deviceId}")
+    Call<ResponseGet> getSettingInfo(@Path("deviceId") String id);
 
     @POST("/api/watch/receiver")
     Call<Void> postOneData(@Body RequestOne requestOne);

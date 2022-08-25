@@ -18,13 +18,14 @@ public class SharedObjects {
     public static boolean isWake = true;
 
     //한 번에 얼마나 보낼지
-    public static int framesize = 200;
+    public static int deviceNum;
+    public static int bufferSize;
 
     //SENSOR_DELAY_FASTEST 0
     //SENSOR_DELAY_GAME 1
     //SENSOR_DELAY_UI 2
     //SENSOR_DELAY_NORMAL 3
-    public static int samplerate = 3;
+    public static int samplerate;
 
     //SENSOR_STATUS_ACCURACY_LOW 1
     //SENSOR_STATUS_ACCURACY_MEDIUM 2
@@ -32,7 +33,6 @@ public class SharedObjects {
     public static int sensor_accuracy = 1;
 
     public static int step_count = 0;
-
     public static int currentTextColor = 0;
 
 }

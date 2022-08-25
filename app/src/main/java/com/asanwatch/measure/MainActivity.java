@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
+import com.asanwatch.measure.Retrofit.RetroCallback;
 import com.asanwatch.measure.databinding.ActivityMainBinding;
 import com.asanwatch.measure.Device.DeviceInfo;
 import com.asanwatch.measure.Service.MeasureClass;
@@ -66,7 +68,6 @@ public class MainActivity extends Activity {
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "MyApp::MyWakelockTag");
 
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -76,10 +77,7 @@ public class MainActivity extends Activity {
         // Device info 받아오고, 서버에 전송하기
         di = new DeviceInfo(getApplicationContext());
         di.sendDeviceInfo();
-
-        // Sheared Preference 설정
-        pm = new PrefManager(getApplicationContext());
-        pm.getPreferences();
+        settingMeasuringOption();
 
         // UI 바인딩
         serverText = binding.serverStatusText;
@@ -97,21 +95,9 @@ public class MainActivity extends Activity {
             }
         });
 
-
         // 워치 세팅 정보 받아옵니다.(수정할거임~)
         settingButton.setOnClickListener(v -> {
-            HashMap<String, String> values = new HashMap<String, String>();
-            values.put("deviceID", Integer.toString(123));
-//            RequestModule request = new RequestModule(SharedObjects.address + SharedObjects.settingRoute, values);
-//            try {
-//                String result = request.execute().get();
-//                String[] prefs = result.split(",");
-//                pm.setPreferences(Integer.parseInt(prefs[0]),Integer.parseInt(prefs[1]),Integer.parseInt(prefs[2]));
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            settingMeasuringOption();
         });
     }
 
@@ -126,6 +112,27 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
         SharedObjects.isWake = false;
+    }
+
+    public void settingMeasuringOption(){
+        SharedObjects.retroClient.getSettingInfo(SharedObjects.deviceId, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                ResponseGet data = (ResponseGet) receivedData;
+                SharedObjects.bufferSize = data.getBufferSize();
+                SharedObjects.samplerate = data.getSamplingRate();
+                SharedObjects.deviceNum = data.getDeviceNum();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Log.d(TAG,"Bad Request : "+code);
+            }
+        });
     }
 
     public boolean isServiceRunning(Class<?> myClass) {
@@ -206,7 +213,7 @@ public class MainActivity extends Activity {
 
         AlertDialog.Builder setdialog = new AlertDialog.Builder(MainActivity.this);
         String sb = "Sampling rate : " + samplingRate + "\n" +
-                    "Frame size : " + SharedObjects.framesize + "\n\n" +
+                    "Frame size : " + SharedObjects.bufferSize + "\n\n" +
                     "위와 같은 설정으로 측정 시작할까요?";
 
 

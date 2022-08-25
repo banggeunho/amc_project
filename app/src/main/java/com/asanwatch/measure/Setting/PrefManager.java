@@ -16,10 +16,10 @@ public class PrefManager {
     }
 
     public static void getPreferences(){ //설정 가져오기
-        SharedObjects.framesize = sharedPreferences.getInt("framesize", 200);
+        SharedObjects.bufferSize = sharedPreferences.getInt("framesize", 200);
         SharedObjects.samplerate = sharedPreferences.getInt("samplerate", 3);
         SharedObjects.sensor_accuracy = sharedPreferences.getInt("sensor_accuracy",1);
-        Log.d(TAG, "framesize : " + SharedObjects.framesize + ", samplerate : " + SharedObjects.samplerate + ", sensor_accuracy : " + SharedObjects.sensor_accuracy);
+        Log.d(TAG, "bufferSize : " + SharedObjects.bufferSize + ", samplerate : " + SharedObjects.samplerate + ", sensor_accuracy : " + SharedObjects.sensor_accuracy);
     }
 
     public static void setPreferences(int framesize, int samplerate, int sensor_accuracy){ //설정 저장하기

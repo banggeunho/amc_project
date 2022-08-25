@@ -191,7 +191,7 @@ public class MeasureClass extends Service implements SensorEventListener {
         SharedObjects.sensorData.get(sensor.getType()).remove("count");
         SharedObjects.sensorData.get(sensor.getType()).remove("value");
 
-        if(count % SharedObjects.framesize == 0 && count != 0) {
+        if(count % SharedObjects.bufferSize == 0 && count != 0) {
 //            int battery = getBattery();
 //            Log.d(TAG, "현재 배터리 상태: "+ Integer.toString(battery));
 
@@ -264,7 +264,7 @@ public class MeasureClass extends Service implements SensorEventListener {
         SharedObjects.sensorData.get(sensor.getType()).remove("y");
         SharedObjects.sensorData.get(sensor.getType()).remove("z");
 
-        if(count % SharedObjects.framesize == 0 && count != 0) {
+        if(count % SharedObjects.bufferSize == 0 && count != 0) {
 //            Log.d(TAG, Integer.toString(battery) + int2str(SharedObjects.framesize));
 
             time += Long.toString(date);

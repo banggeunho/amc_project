@@ -8,6 +8,7 @@ import com.asanwatch.measure.Retrofit.RequestBody.RequestHR;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestOne;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestStep;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestThree;
+import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
 import com.asanwatch.measure.Setting.SharedObjects;
 
 import retrofit2.Call;
@@ -58,24 +59,25 @@ public class RetroClient {
     }
 
 
-//    public void getFirst(String id, final RetroCallback callback) {
-//        apiService.getFirst(id).enqueue(new Callback<ResponseGet>() {
-//            @Override
-//            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
-//                if (response.isSuccessful()) {
-//                    callback.onSuccess(response.code(), response.body());
-//                } else {
-//                    callback.onFailure(response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseGet> call, Throwable t) {
-//                callback.onError(t);
-//            }
-//        });
-//    }
-//
+    public void getSettingInfo(String id, final RetroCallback callback) {
+        apiService.getSettingInfo(id).enqueue(new Callback<ResponseGet>() {
+            @Override
+            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
+                if (response.isSuccessful()) {
+                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseGet> call, Throwable t) {
+                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
+                callback.onError(t);
+            }
+        });
+    }
+
 
     public void postDeviceData(RequestDevice parameters, final RetroCallback callback) {
         apiService.postDeviceData(parameters).enqueue(new Callback<Void>() {
