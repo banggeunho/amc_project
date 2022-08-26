@@ -26,13 +26,11 @@ import androidx.core.app.ActivityCompat;
 
 import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
 import com.asanwatch.measure.Retrofit.RetroCallback;
+import com.asanwatch.measure.Util.CustomDialog;
 import com.asanwatch.measure.databinding.ActivityMainBinding;
 import com.asanwatch.measure.Device.DeviceInfo;
 import com.asanwatch.measure.Service.MeasureClass;
-import com.asanwatch.measure.Setting.PrefManager;
 import com.asanwatch.measure.Setting.SharedObjects;
-
-import java.util.HashMap;
 
 public class MainActivity extends Activity {
 
@@ -43,7 +41,6 @@ public class MainActivity extends Activity {
     private Button startButton, settingButton;
     private ActivityMainBinding binding;
     private Intent backgroundService;
-    private PrefManager pm;
     private DeviceInfo di;
     private PowerManager powerManager;
     private PowerManager.WakeLock wakeLock;
@@ -54,10 +51,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // 앱 추가 권한 설정
-        if( ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BODY_SENSORS, Manifest.permission.ACTIVITY_RECOGNITION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BODY_SENSORS, Manifest.permission.ACTIVITY_RECOGNITION}, 1);
         }
 
         // Main activity context 가져오기
@@ -89,10 +85,7 @@ public class MainActivity extends Activity {
         startButton.setOnClickListener(v -> {
             if(!isServiceRunning(MeasureClass.class)) // 측정 중이 아닐 경우
                 notificationOfStart();
-            else
-            {
-                notificationOfStop();
-            }
+            else { notificationOfStop(); }
         });
 
         // 워치 세팅 정보 받아옵니다.(수정할거임~)
@@ -197,12 +190,6 @@ public class MainActivity extends Activity {
         return false;  //연결이 되지않은 상태
     }
 
-    public static void setNetworkText(String s){
-        if(networkText!=null) {
-            networkText.setText(s);
-        }
-    }
-
     public void notificationOfStart(){
         String samplingRate;
 
@@ -211,9 +198,10 @@ public class MainActivity extends Activity {
         else if (SharedObjects.samplerate == 2) samplingRate = "UI MODE";
         else samplingRate = "NORMAL MODE";
 
+//        CustomDialog customDialog = new CustomDialog(MainActivity.this);
         AlertDialog.Builder setdialog = new AlertDialog.Builder(MainActivity.this);
         String sb = "Sampling rate : " + samplingRate + "\n" +
-                    "Frame size : " + SharedObjects.bufferSize + "\n\n" +
+                    "Frame size : " + SharedObjects.bufferSize + "\n" +
                     "위와 같은 설정으로 측정 시작할까요?";
 
 
@@ -244,7 +232,6 @@ public class MainActivity extends Activity {
         AlertDialog.Builder setdialog = new AlertDialog.Builder(MainActivity.this);
         String sb = "정말로 측정을 중단하시겠습니까?";
 
-
         setdialog.setTitle("Notification")
                 .setMessage(sb)
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
@@ -262,6 +249,7 @@ public class MainActivity extends Activity {
                         Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
                     }
                 })
+//                .setView(R.layout.dialog_confirm)
                 .create()
                 .show();
 

@@ -31,14 +31,14 @@ public class ResponseGet {
     }
 
     public int getDeviceNum(){
-        return this.getDeviceNum();
+        return this.deviceNum;
     }
 
     public int getSamplingRate(){
-        return this.getSamplingRate();
+        return this.samplingRate;
     }
 
     public int getBufferSize(){
-        return this.getBufferSize();
+        return this.bufferSize;
     }
 }
