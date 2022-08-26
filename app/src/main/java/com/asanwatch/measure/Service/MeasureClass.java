@@ -112,7 +112,6 @@ public class MeasureClass extends Service implements SensorEventListener {
     }
 
     private void initSensors(){
-
         manager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         mSensors = new Sensor[SharedObjects.sensorType.size()];
         Integer i = 0;
@@ -175,8 +174,8 @@ public class MeasureClass extends Service implements SensorEventListener {
                 SharedObjects.sensorData.put(entry.getKey(), temp);
             }
         }
-        Log.d(TAG, SharedObjects.sensorType.toString());
-        Log.d(TAG, SharedObjects.sensorData.toString());
+//        Log.d(TAG, SharedObjects.sensorType.toString());
+//        Log.d(TAG, SharedObjects.sensorData.toString());
     }
 
     public void sendData_1(Sensor sensor, SensorEvent event, long date)
@@ -207,7 +206,7 @@ public class MeasureClass extends Service implements SensorEventListener {
             values.put("sensor_name", sensor.getName());
             values.put("deviceID", SharedObjects.deviceId);
 
-            Log.d(TAG, sensor.getName()+'/'+int2str(count)+'/'+int2str(frame_number));
+//            Log.d(TAG, sensor.getName()+'/'+int2str(count)+'/'+int2str(frame_number));
 
             RequestOne data = new RequestOne(values);
             retroClient.postOneData(data, new RetroCallback() {
@@ -217,11 +216,12 @@ public class MeasureClass extends Service implements SensorEventListener {
 
                 @Override
                 public void onSuccess(int code, Object receivedData) {
-                    ResponseGet data = (ResponseGet) receivedData;
+//                    ResponseGet data = (ResponseGet) receivedData;
                 }
 
                 @Override
                 public void onFailure(int code) {
+                    Log.d(TAG, "BAD Request: " + code);
                 }
             });
 
@@ -282,7 +282,7 @@ public class MeasureClass extends Service implements SensorEventListener {
             values.put("sensor_name", sensor.getName());
             values.put("deviceID", SharedObjects.deviceId);
 
-            Log.d(TAG, sensor.getName()+'/'+int2str(count)+'/'+int2str(frame_number));
+//            Log.d(TAG, sensor.getName()+'/'+int2str(count)+'/'+int2str(frame_number));
 
             RequestThree data = new RequestThree(values);
             retroClient.postThreeData(data, new RetroCallback() {
@@ -296,6 +296,7 @@ public class MeasureClass extends Service implements SensorEventListener {
 
                 @Override
                 public void onFailure(int code) {
+                    Log.d(TAG, "BAD Request: " + code);
                 }
             });
 
@@ -329,7 +330,7 @@ public class MeasureClass extends Service implements SensorEventListener {
     public void sendData_quickly(Sensor sensor, SensorEvent event, long date)
     {
         Integer frame_number = str2int(SharedObjects.sensorData.get(sensor.getType()).get("frame_num").toString());
-        Log.d(TAG, sensor.getName() + event.values[0]);
+//        Log.d(TAG, sensor.getName() + event.values[0]);
 //        Log.d(TAG, "현재 배터리 상태: "+ Integer.toString(battery));
         HashMap<String, String> values = new HashMap<String, String>();
         if (sensor.getType() == sensor.TYPE_STEP_DETECTOR)
@@ -357,6 +358,7 @@ public class MeasureClass extends Service implements SensorEventListener {
 
                 @Override
                 public void onFailure(int code) {
+                    Log.d(TAG, "BAD Request: " + code);
                 }
             });
 
