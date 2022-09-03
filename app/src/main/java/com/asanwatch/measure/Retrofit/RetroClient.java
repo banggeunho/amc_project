@@ -3,11 +3,8 @@ package com.asanwatch.measure.Retrofit;
 import android.content.Context;
 
 import com.asanwatch.measure.MainActivity;
+import com.asanwatch.measure.Retrofit.RequestBody.RequestData;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestDevice;
-import com.asanwatch.measure.Retrofit.RequestBody.RequestHR;
-import com.asanwatch.measure.Retrofit.RequestBody.RequestOne;
-import com.asanwatch.measure.Retrofit.RequestBody.RequestStep;
-import com.asanwatch.measure.Retrofit.RequestBody.RequestThree;
 import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
 import com.asanwatch.measure.Setting.SharedObjects;
 
@@ -100,8 +97,8 @@ public class RetroClient {
         });
     }
 
-    public void postOneData(RequestOne parameters, final RetroCallback callback) {
-        apiService.postOneData(parameters).enqueue(new Callback<Void>() {
+    public void postMeasuredData(RequestData parameters, final RetroCallback callback) {
+        apiService.postMeasuredData(parameters).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
@@ -121,68 +118,6 @@ public class RetroClient {
         });
     }
 
-    public void postThreeData(RequestThree parameters, final RetroCallback callback) {
-        apiService.postThreeData(parameters).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void postHRData(RequestHR parameters, final RetroCallback callback) {
-        apiService.postHRData(parameters).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void postStepData(RequestStep parameters, final RetroCallback callback) {
-        apiService.postStepData(parameters).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
-                callback.onError(t);
-            }
-        });
-    }
 
 /*    public void putFirst(HashMap<String, Object> parameters, final RetroCallback callback) {
         apiService.putFirst(new RequestPut(parameters)).enqueue(new Callback<ResponseGet>() {
