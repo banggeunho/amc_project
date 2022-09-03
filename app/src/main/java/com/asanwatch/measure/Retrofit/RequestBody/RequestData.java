@@ -7,9 +7,9 @@ public class RequestData {
 
     public final HashMap<String, Object> value = new HashMap<String, Object>();
     public final boolean is3axis;
-    public final Integer frame_num;
-    public final String sensor_name;
-    public final Integer sensor_type;
+    public final Integer frameNum;
+    public final String sensorName;
+    public final Integer sensorType;
     public final String deviceID;
     public final Long startTime;
 
@@ -24,9 +24,9 @@ public class RequestData {
         this.value.put("x", (ArrayList<Float>) params.get("x"));
         this.value.put("y", (ArrayList<Float>) params.get("y"));
         this.value.put("z", (ArrayList<Float>) params.get("z"));
-        this.frame_num = (Integer) params.get("frame_num");
-        this.sensor_name = (String) params.get("sensor_name");
-        this.sensor_type = (Integer) params.get("sensor_type");
+        this.frameNum = (Integer) params.get("frame_num");
+        this.sensorName = (String) params.get("sensor_name");
+        this.sensorType = (Integer) params.get("sensor_type");
         this.deviceID = (String) params.get("deviceID");
         this.batteryStatus = (Integer) params.get("battery");
         this.stepCount = (Integer) params.get("step_count");

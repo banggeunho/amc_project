@@ -277,9 +277,8 @@ public class MeasureClass extends Service implements SensorEventListener {
         HashMap<String, Object> values = new HashMap<String, Object>();
         if (sensor.getType() == sensor.TYPE_STEP_DETECTOR) {
             SharedObjects.step_count++;
+            values.put("step_count", SharedObjects.step_count);
         }
-
-        values.put("step_count", SharedObjects.step_count);
         values.put("is3axis", false);
         values.put("time", new ArrayList<Long>(Arrays.asList(date)));
         values.put("value", new ArrayList<Float>(Arrays.asList(event.values[0])));

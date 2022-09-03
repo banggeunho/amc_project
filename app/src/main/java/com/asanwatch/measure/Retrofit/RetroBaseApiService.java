@@ -12,19 +12,19 @@ import retrofit2.http.Path;
 
 public interface RetroBaseApiService {
 
-    final String Base_URL = "http://210.102.178.105:7000";
+    final String Base_URL = "http://210.102.178.105:8000";
 
-    @GET("/api/watch/{deviceId}")
+    @GET("/api/watch/download/setting/{deviceId}?isTest=True")
     Call<ResponseGet> getSettingInfo(@Path("deviceId") String id);
 
     // 센서 데이터를 request하는 함수들을 하나로 통합하는 작업 필요
     // dto 생성 시 구별하는 변수를 하나 포함시켜, 각 데이터마다 어떤 값이 들어가는지 자동적으로 분류해줄 수 있는 조건 작성 필요
     //
 
-    @POST("/api/watch/receiver")
+    @POST("/api/watch/upload/receiver")
     Call<Void> postMeasuredData(@Body RequestData requestData);
 
-    @POST("/api/watch/info")
+    @POST("/api/watch/upload/info")
     Call<Void> postDeviceData(@Body RequestDevice requestDevice);
 //    Call<Void> postStepData(@FieldMap HashMap<String, String> parameters);
 
