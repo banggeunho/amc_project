@@ -1,5 +1,7 @@
 package com.asanwatch.measure.Retrofit.RequestBody;
 
+import com.asanwatch.measure.Setting.SharedObjects;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public class RequestData {
         this.value.put("x", (ArrayList<Float>) params.get("x"));
         this.value.put("y", (ArrayList<Float>) params.get("y"));
         this.value.put("z", (ArrayList<Float>) params.get("z"));
-        this.frameNum = (Integer) params.get("frame_num");
+        this.frameNum = SharedObjects.frame_num;
         this.sensorName = (String) params.get("sensor_name");
         this.sensorType = (Integer) params.get("sensor_type");
         this.deviceID = (String) params.get("deviceID");

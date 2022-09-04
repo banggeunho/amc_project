@@ -32,6 +32,7 @@ public class SharedObjects {
     //SENSOR_STATUS_ACCURACY_HIGH 3
     public static int sensor_accuracy = 1;
 
+    public static int frame_num = 0;
     public static int step_count = 0;
     public static int currentTextColor = 0;
 

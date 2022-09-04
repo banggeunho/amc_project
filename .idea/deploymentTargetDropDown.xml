@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <targetSelectedWithDropDown>
+    <runningDeviceTargetSelectedWithDropDown>
       <Target>
-        <type value="QUICK_BOOT_TARGET" />
+        <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Wear_OS_Round_API_30.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="172.30.1.28:5555" />
           </Key>
         </deviceKey>
       </Target>
-    </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-08-25T04:24:45.528593Z" />
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2022-09-04T07:39:24.574147Z" />
   </component>
 </project>

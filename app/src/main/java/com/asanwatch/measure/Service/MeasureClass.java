@@ -157,7 +157,6 @@ public class MeasureClass extends Service implements SensorEventListener {
                 temp.put("y", new ArrayList<Float>());
                 temp.put("z", new ArrayList<Float>());
                 temp.put("count", 0);
-                temp.put("frame_num", 0);
                 SharedObjects.sensorData.put(entry.getKey(), temp);
         }
         Log.d(TAG, SharedObjects.sensorType.toString());
@@ -179,7 +178,7 @@ public class MeasureClass extends Service implements SensorEventListener {
         ArrayList<Float> y = (ArrayList) SharedObjects.sensorData.get(sensor.getType()).get("y");
         ArrayList<Float> z = (ArrayList) SharedObjects.sensorData.get(sensor.getType()).get("z");
         Integer count = (Integer) SharedObjects.sensorData.get(sensor.getType()).get("count");
-        Integer frame_number = (Integer) SharedObjects.sensorData.get(sensor.getType()).get("frame_num");
+
 
 //        Log.d(TAG, event.values.length +""+Boolean.toString(is3axis));
 //        Log.d(TAG, SharedObjects.sensorData.get(sensor.getType()).toString());
@@ -210,7 +209,7 @@ public class MeasureClass extends Service implements SensorEventListener {
             values.put("x", x);
             values.put("y", y);
             values.put("z", z);
-            values.put("frame_num", frame_number);
+//            values.put("frame_num", frame_number);
             values.put("sensor_type", sensor.getType());
             values.put("sensor_name", sensor.getName());
             values.put("startTime", startTime);
@@ -237,7 +236,6 @@ public class MeasureClass extends Service implements SensorEventListener {
             });
 
             count = 0;
-            frame_number += 1;
             SharedObjects.sensorData.get(sensor.getType()).put("time", new ArrayList<Long>());
             SharedObjects.sensorData.get(sensor.getType()).put("value", new ArrayList<Float>());
             SharedObjects.sensorData.get(sensor.getType()).put("x", new ArrayList<Float>());
@@ -245,7 +243,6 @@ public class MeasureClass extends Service implements SensorEventListener {
             SharedObjects.sensorData.get(sensor.getType()).put("y", new ArrayList<Float>());
             SharedObjects.sensorData.get(sensor.getType()).put("count", count);
             SharedObjects.sensorData.get(sensor.getType()).remove("frame_num");
-            SharedObjects.sensorData.get(sensor.getType()).put("frame_num", frame_number);
 
 //            if(SharedObjects.isWake){ MainActivity.setServerStatusText(); }
 
@@ -272,7 +269,6 @@ public class MeasureClass extends Service implements SensorEventListener {
 
     public void notBuffered_data(Sensor sensor, SensorEvent event, long date)
     {
-        Integer frame_number = str2int(SharedObjects.sensorData.get(sensor.getType()).get("frame_num").toString());
 
         HashMap<String, Object> values = new HashMap<String, Object>();
         if (sensor.getType() == sensor.TYPE_STEP_DETECTOR) {
@@ -280,9 +276,9 @@ public class MeasureClass extends Service implements SensorEventListener {
             values.put("step_count", SharedObjects.step_count);
         }
         values.put("is3axis", false);
-        values.put("time", new ArrayList<Long>(Arrays.asList(date)));
+        values.put("timestamp", new ArrayList<Long>(Arrays.asList(date)));
         values.put("value", new ArrayList<Float>(Arrays.asList(event.values[0])));
-        values.put("frame_num", frame_number);
+//        values.put("frame_num", frame_number);
         values.put("battery", getBattery());
         values.put("sensor_name", sensor.getName());
         values.put("sensor_type", sensor.getType());
@@ -304,10 +300,9 @@ public class MeasureClass extends Service implements SensorEventListener {
             public void onFailure(int code) {
             }
         });
-
-        frame_number += 1;
+        
         SharedObjects.sensorData.get(sensor.getType()).remove("frame_num");
-        SharedObjects.sensorData.get(sensor.getType()).put("frame_num", frame_number);
+
 
     }
 

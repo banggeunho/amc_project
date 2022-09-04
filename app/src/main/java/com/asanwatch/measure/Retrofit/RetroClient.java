@@ -84,7 +84,6 @@ public class RetroClient {
                     if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
                     callback.onSuccess(response.code(), response.body());
                 } else {
-
                     callback.onFailure(response.code());
                 }
             }
@@ -116,6 +115,7 @@ public class RetroClient {
                 callback.onError(t);
             }
         });
+        SharedObjects.frame_num ++; // 전송 횟수 측정
     }
 
 
