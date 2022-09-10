@@ -147,6 +147,8 @@ public class MeasureClass extends Service implements SensorEventListener {
         SharedObjects.sensorType.put(9, 3); // Gravity
         SharedObjects.sensorType.put(15, 3); // Game_rotation
 
+        // 5, 6, 18, 21, 1, 2, 4, 9, 15
+
         Iterator<Map.Entry<Integer, Integer>> entries = SharedObjects.sensorType.entrySet().iterator();
         while(entries.hasNext()){
             HashMap<String, Object> temp = new HashMap<String, Object>();
