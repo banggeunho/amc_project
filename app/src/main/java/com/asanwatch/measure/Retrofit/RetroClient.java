@@ -1,6 +1,7 @@
 package com.asanwatch.measure.Retrofit;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.asanwatch.measure.MainActivity;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestData;
@@ -17,9 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetroClient {
 
     private RetroBaseApiService apiService;
-    public static String baseUrl = RetroBaseApiService.Base_URL;
+    public static String baseUrl = SharedObjects.Base_URL;
     private static Context mContext;
     private static Retrofit retrofit;
+
 
     private static class SingletonHolder {
         private static RetroClient INSTANCE = new RetroClient(mContext);
@@ -32,7 +34,8 @@ public class RetroClient {
         return SingletonHolder.INSTANCE;
     }
 
-    private RetroClient(Context context) {
+    public RetroClient(Context context) {
+        baseUrl = SharedObjects.Base_URL;
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
@@ -48,7 +51,7 @@ public class RetroClient {
      * create you ApiService
      * Create an implementation of the API endpoints defined by the {@code service} interface.
      */
-    public  <T> T create(final Class<T> service) {
+    public <T> T create(final Class<T> service) {
         if (service == null) {
             throw new RuntimeException("Api service is null!");
         }
@@ -61,15 +64,20 @@ public class RetroClient {
             @Override
             public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
                 if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
+                    if (SharedObjects.isWake) {
+                        MainActivity.setServerStatusText(true);
+                    }
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     callback.onFailure(response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseGet> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
+                if (SharedObjects.isWake) {
+                    MainActivity.setServerStatusText(false);
+                }
                 callback.onError(t);
             }
         });
@@ -81,7 +89,9 @@ public class RetroClient {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
+                    if (SharedObjects.isWake) {
+                        MainActivity.setServerStatusText(true);
+                    }
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     callback.onFailure(response.code());
@@ -90,7 +100,9 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
+                if (SharedObjects.isWake) {
+                    MainActivity.setServerStatusText(false);
+                }
                 callback.onError(t);
             }
         });
@@ -101,21 +113,27 @@ public class RetroClient {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(true); }
+                    if (SharedObjects.isWake) {
+                        MainActivity.setServerStatusText(true);
+                    }
                     callback.onSuccess(response.code(), response.body());
                 } else {
-                    if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
+                    if (SharedObjects.isWake) {
+                        MainActivity.setServerStatusText(false);
+                    }
                     callback.onFailure(response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                if (SharedObjects.isWake) { MainActivity.setServerStatusText(false); }
+                if (SharedObjects.isWake) {
+                    MainActivity.setServerStatusText(false);
+                }
                 callback.onError(t);
             }
         });
-        SharedObjects.frame_num ++; // 전송 횟수 측정
+        SharedObjects.frame_num++; // 전송 횟수 측정
     }
 
 

@@ -1,8 +1,11 @@
 package com.asanwatch.measure.Retrofit;
 
+import android.util.Log;
+
 import com.asanwatch.measure.Retrofit.RequestBody.RequestData;
 import com.asanwatch.measure.Retrofit.RequestBody.RequestDevice;
 import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
+import com.asanwatch.measure.Setting.SharedObjects;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -11,8 +14,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetroBaseApiService {
-
-    final String Base_URL = "http://210.102.178.105:8000";
 
     @GET("/api/watch/download/setting/{deviceId}?isTest=True")
     Call<ResponseGet> getSettingInfo(@Path("deviceId") String id);

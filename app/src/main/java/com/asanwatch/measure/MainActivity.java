@@ -18,7 +18,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.asanwatch.measure.Retrofit.ResponseBody.ResponseGet;
 import com.asanwatch.measure.Retrofit.RetroCallback;
+import com.asanwatch.measure.Retrofit.RetroClient;
 import com.asanwatch.measure.Util.CustomDialog;
 import com.asanwatch.measure.databinding.ActivityMainBinding;
 import com.asanwatch.measure.Device.DeviceInfo;
@@ -38,7 +44,7 @@ public class MainActivity extends Activity {
     private static Context context;
     private static TextView serverText;
     private static TextView networkText;
-    private Button startButton, settingButton;
+    private Button startButton, settingButton, ipconfigButton;
     private ActivityMainBinding binding;
     private Intent backgroundService;
     private DeviceInfo di;
@@ -70,6 +76,7 @@ public class MainActivity extends Activity {
         // 서비스 클래스 인텐트 불러오기
         backgroundService = new Intent(getApplicationContext(), MeasureClass.class);
 
+
         // Device info 받아오고, 서버에 전송하기
         di = new DeviceInfo(getApplicationContext());
         di.sendDeviceInfo();
@@ -80,6 +87,7 @@ public class MainActivity extends Activity {
         networkText = binding.networkStatusText;
         startButton = binding.startButton;
         settingButton = binding.getSetting;
+        ipconfigButton = binding.ipconfigButton;
 
         // 측정 버튼 동작 (콜백 함수)
         startButton.setOnClickListener(v -> {
@@ -88,9 +96,15 @@ public class MainActivity extends Activity {
             else { notificationOfStop(); }
         });
 
-        // 워치 세팅 정보 받아옵니다.(수정할거임~)
+        // 네트워크 설정 변경
+        ipconfigButton.setOnClickListener(v -> {
+            settingDialog();
+        });
+
+        // 워치 세팅 정보 받아옵니다.
         settingButton.setOnClickListener(v -> {
             settingMeasuringOption();
+
         });
     }
 
@@ -108,6 +122,7 @@ public class MainActivity extends Activity {
     }
 
     public void settingMeasuringOption(){
+        Log.d(TAG, "Get setting options from server.");
         SharedObjects.retroClient.getSettingInfo(SharedObjects.deviceId, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
@@ -252,6 +267,60 @@ public class MainActivity extends Activity {
 //                .setView(R.layout.dialog_confirm)
                 .create()
                 .show();
+
+    }
+
+    public void settingDialog(){
+        final EditText ip = new EditText(MainActivity.this);
+        final EditText port = new EditText(MainActivity.this);
+
+        LinearLayout container = new LinearLayout(MainActivity.this);
+        LinearLayout.LayoutParams params = new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        container.setOrientation(LinearLayout.VERTICAL);
+
+        ip.setText(SharedObjects.serverIp);
+        port.setText(SharedObjects.serverPort);
+
+        ip.setLayoutParams(params);
+        port.setLayoutParams(params);
+        container.addView(ip, 0);
+        container.addView(port, 1);
+
+        AlertDialog.Builder setdialog = new AlertDialog.Builder(MainActivity.this);
+        String sb = "서버 네트워크 주소를 입력해주세요";
+
+        setdialog.setTitle("Network Setting")
+//                .setMessage(sb)
+                .setView(container)
+                .setPositiveButton("변경", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "네트워크 설정 변경 완료", Toast.LENGTH_SHORT).show();
+                        SharedObjects.serverIp = ip.getText().toString();
+                        SharedObjects.serverPort = port.getText().toString();
+                        SharedObjects.Base_URL = "http://"+ SharedObjects.serverIp + ":" + SharedObjects.serverPort;
+
+                        RetroClient retroClient = new RetroClient(MainActivity.this);
+                        SharedObjects.retroClient = retroClient.getInstance(MainActivity.this).createBaseApi();
+                        Log.d(TAG, RetroClient.baseUrl);
+                        di = new DeviceInfo(getApplicationContext());
+                        di.sendDeviceInfo();
+                        settingMeasuringOption();
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+                })
+//                .setView(R.layout.dialog_confirm)
+                .create()
+                .show();
+
 
     }
 

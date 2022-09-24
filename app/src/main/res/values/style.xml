@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<!--     Base application theme.-->
+<!--    <style name="MyAlertDialogStyle" >-->
+<!--        <item name="android:textColor">@color/common_google_signin_btn_text_dark_default</item>-->
+<!--        <item name="android:typeface">monospace</item>-->
+<!--        <item name="android:background">@drawable/common_google_signin_btn_text_light</item>-->
+<!--    </style>-->
+</resources>

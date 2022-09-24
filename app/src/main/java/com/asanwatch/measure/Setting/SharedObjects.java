@@ -8,6 +8,11 @@ import com.asanwatch.measure.Retrofit.RetroClient;
 import java.util.HashMap;
 
 public class SharedObjects {
+
+    public static String serverIp = "210.102.178.105";
+    public static String serverPort = "8000";
+
+    public static String Base_URL = "http://"+ SharedObjects.serverIp + ":" + SharedObjects.serverPort;
     public static RetroClient retroClient = RetroClient.getInstance(MainActivity.ApplicationContext()).createBaseApi();
 
     public static String deviceBrand = DeviceInfoUtil.getDeviceBrand();
