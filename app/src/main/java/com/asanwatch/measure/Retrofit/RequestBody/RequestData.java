@@ -14,12 +14,14 @@ public class RequestData {
     public final Integer sensorType;
     public final String deviceID;
     public final Long startTime;
+    public final Integer isMeasureEnd;
 
     // 버퍼에 저장하지 않는 변수
     public final Integer batteryStatus;
     public final Integer stepCount;
 
     public RequestData(HashMap<String, Object> params) {
+        this.isMeasureEnd = (Integer) params.get("isMeasureEnd");
         this.is3axis = (boolean) params.get("is3axis");
         this.value.put("timestamp", (ArrayList<Long>) params.get("timestamp"));
         this.value.put("value", (ArrayList<Float>) params.get("value"));

@@ -52,6 +52,7 @@ public class MeasureClass extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy(){
+        sendStopMessage(startTime);
         unregister();
     }
 
@@ -121,7 +122,9 @@ public class MeasureClass extends Service implements SensorEventListener {
     }
 
     public void unregister() { // unregister listener
+
         manager.unregisterListener(this);
+        SharedObjects.frame_num = 0;
         SharedObjects.sensorData.clear();
         SharedObjects.sensorType.clear();
     }
@@ -211,7 +214,6 @@ public class MeasureClass extends Service implements SensorEventListener {
             values.put("x", x);
             values.put("y", y);
             values.put("z", z);
-//            values.put("frame_num", frame_number);
             values.put("sensor_type", sensor.getType());
             values.put("sensor_name", sensor.getName());
             values.put("startTime", startTime);
@@ -271,7 +273,6 @@ public class MeasureClass extends Service implements SensorEventListener {
 
     public void notBuffered_data(Sensor sensor, SensorEvent event, long date)
     {
-
         HashMap<String, Object> values = new HashMap<String, Object>();
         if (sensor.getType() == sensor.TYPE_STEP_DETECTOR) {
             SharedObjects.step_count++;
@@ -280,7 +281,6 @@ public class MeasureClass extends Service implements SensorEventListener {
         values.put("is3axis", false);
         values.put("timestamp", new ArrayList<Long>(Arrays.asList(date)));
         values.put("value", new ArrayList<Float>(Arrays.asList(event.values[0])));
-//        values.put("frame_num", frame_number);
         values.put("battery", getBattery());
         values.put("sensor_name", sensor.getName());
         values.put("sensor_type", sensor.getType());
@@ -304,8 +304,34 @@ public class MeasureClass extends Service implements SensorEventListener {
         });
         
         SharedObjects.sensorData.get(sensor.getType()).remove("frame_num");
+    }
 
+    public void sendStopMessage(long date){
+        float tmp = Float.parseFloat("0");
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("deviceID", SharedObjects.deviceId);
+        values.put("timestamp", new ArrayList<Long>(Arrays.asList(date)));
+        values.put("value", new ArrayList<Float>(Arrays.asList(tmp)));
+        values.put("battery", getBattery());
+        values.put("sensor_name", "");
+        values.put("sensor_type", 0);
+        values.put("startTime", startTime);
+        values.put("is3axis", false);
+        values.put("isMeasureEnd", 1);
+        RequestData data = new RequestData(values);
+        retroClient.postMeasuredData(data, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+            }
 
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+            }
+
+            @Override
+            public void onFailure(int code) {
+            }
+        });
     }
 
     public Integer str2int(String str)

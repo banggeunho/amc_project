@@ -27,10 +27,6 @@ public class DeviceInfo extends View {
     public static String androidId;
     private static final String TAG = "DeviceInfo";
 
-
-
-
-
     public DeviceInfo(Context context) {
         super(context);
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
