@@ -66,7 +66,7 @@ public class RetroClient {
             public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.code(), response.body());
-                    Log.d(TAG, response.body().toString());
+//                    Log.d(TAG, response.body().toString());
                 } else {
                     callback.onFailure(response.code());
                 }
