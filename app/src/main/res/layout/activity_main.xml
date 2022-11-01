@@ -23,7 +23,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.377" />
+            app:layout_constraintVertical_bias="0.307" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
@@ -33,7 +35,7 @@
         app:layout_boxedEdges="all">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -42,14 +44,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:bufferType="spannable"
-                android:text="네트워크 상태 : " />
+                android:text="네트워크: " />
 
             <TextView
                 android:id="@+id/server_status_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:bufferType="spannable"
-                android:text="서버 상태 :" />
+                android:text="서버:" />
+
+
+            <TextView
+                android:id="@+id/watch_num_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:bufferType="spannable"
+                android:text="시계ID:" />
+
+            <TextView
+                android:id="@+id/patient_num_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:bufferType="spannable"
+                android:text="환자ID:" />
+            <TextView
+                android:id="@+id/room_num_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:bufferType="spannable"
+                android:text="장소:" />
 
         </LinearLayout>
     </FrameLayout>
@@ -67,13 +90,17 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="0"
-            android:layout_marginBottom="1dp"
-            android:text="네트워크 설정" />
+            android:text="네트워크 설정"/>
+
+<!--            tools:layout_editor_absoluteX="0dp"-->
+<!--            tools:layout_editor_absoluteY="100dp"-->
+<!--            tools:ignore="MissingConstraints"-->
+
 
         <Button
             android:id="@+id/startButton"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_weight="0"
             android:minWidth="0dp"
             android:minHeight="0dp"

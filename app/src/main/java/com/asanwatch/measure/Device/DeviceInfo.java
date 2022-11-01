@@ -55,6 +55,9 @@ public class DeviceInfo extends View {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
+                if (SharedObjects.isWake) {
+                    MainActivity.setServerStatusText(true);
+                }
             }
 
             @Override

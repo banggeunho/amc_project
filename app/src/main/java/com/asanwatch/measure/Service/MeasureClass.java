@@ -106,6 +106,7 @@ public class MeasureClass extends Service implements SensorEventListener {
         startForeground(1, builder.build());
     }
 
+    // ㅇㅣ부분 수정 받아온 샘플링 레이트로 !!!!!
     private void initSensors(){
         manager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         mSensors = new Sensor[SharedObjects.sensorType.size()];

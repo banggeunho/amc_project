@@ -16,6 +16,15 @@ public class ResponseGet {
     @SerializedName("bufferSize")
     private int bufferSize;
 
+    @SerializedName("patientID")
+    private int patientId;
+
+    @SerializedName("roomNum")
+    private String roomNum;
+
+    @SerializedName("patientName")
+    private String patientName;
+
     @Override
     public String toString() {
         return "Setting Info{" +
@@ -41,4 +50,13 @@ public class ResponseGet {
     public int getBufferSize(){
         return this.bufferSize;
     }
+
+    public int getPatientId(){
+        return this.patientId;
+    }
+
+    public String getRoomNum() { return this.roomNum; }
+
+    public String getPatientName() { return this.patientName; };
+
 }

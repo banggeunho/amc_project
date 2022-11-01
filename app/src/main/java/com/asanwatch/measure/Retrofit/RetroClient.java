@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroClient {
 
+    private static final String TAG = "Retrofit Client";
     private RetroBaseApiService apiService;
     public static String baseUrl = SharedObjects.Base_URL;
     private static Context mContext;
@@ -64,10 +65,8 @@ public class RetroClient {
             @Override
             public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
                 if (response.isSuccessful()) {
-                    if (SharedObjects.isWake) {
-                        MainActivity.setServerStatusText(true);
-                    }
                     callback.onSuccess(response.code(), response.body());
+                    Log.d(TAG, response.body().toString());
                 } else {
                     callback.onFailure(response.code());
                 }

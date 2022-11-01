@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 
 public interface RetroBaseApiService {
 
-    @GET("/api/watch/download/setting/{deviceId}?isTest=True")
+    @GET("/api/watch/download/setting/{deviceId}?isTest=False")
     Call<ResponseGet> getSettingInfo(@Path("deviceId") String id);
 
     // 센서 데이터를 request하는 함수들을 하나로 통합하는 작업 필요

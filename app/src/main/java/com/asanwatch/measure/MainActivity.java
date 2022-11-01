@@ -38,12 +38,19 @@ import com.asanwatch.measure.Device.DeviceInfo;
 import com.asanwatch.measure.Service.MeasureClass;
 import com.asanwatch.measure.Setting.SharedObjects;
 
+import org.w3c.dom.Text;
+
+import retrofit2.Response;
+
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
     private static Context context;
     private static TextView serverText;
     private static TextView networkText;
+    private static TextView patientNumText;
+    private static TextView patientRoomText;
+    private static TextView watchNumText;
     private Button startButton, settingButton, ipconfigButton;
     private ActivityMainBinding binding;
     private Intent backgroundService;
@@ -88,6 +95,9 @@ public class MainActivity extends Activity {
         startButton = binding.startButton;
         settingButton = binding.getSetting;
         ipconfigButton = binding.ipconfigButton;
+        patientNumText = binding.patientNumText;
+        patientRoomText = binding.roomNumText;
+        watchNumText = binding.watchNumText;
 
         // 측정 버튼 동작 (콜백 함수)
         startButton.setOnClickListener(v -> {
@@ -103,6 +113,7 @@ public class MainActivity extends Activity {
 
         // 워치 세팅 정보 받아옵니다.
         settingButton.setOnClickListener(v -> {
+            di.sendDeviceInfo();
             settingMeasuringOption();
 
         });
@@ -113,6 +124,8 @@ public class MainActivity extends Activity {
         super.onResume();
         SharedObjects.isWake = true;
         setNetworkTextWithPing(isNetworkOK(getApplicationContext()));
+        di.sendDeviceInfo();
+        settingMeasuringOption();
     }
 
     @Override
@@ -130,10 +143,20 @@ public class MainActivity extends Activity {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
+
                 ResponseGet data = (ResponseGet) receivedData;
-                SharedObjects.bufferSize = data.getBufferSize();
+                Log.d(TAG, data.toString());
+                // buffer size가 0일 경우
+                if (data.getBufferSize() == 0){
+                    SharedObjects.bufferSize = 50;
+                }
+                else { SharedObjects.bufferSize = data.getBufferSize();}
                 SharedObjects.samplerate = data.getSamplingRate();
                 SharedObjects.deviceNum = data.getDeviceNum();
+                if (SharedObjects.isWake) {
+                    MainActivity.setServerStatusText(true);
+                    MainActivity.setPatientText(data);
+                }
             }
 
             @Override
@@ -323,6 +346,21 @@ public class MainActivity extends Activity {
 
 
     }
+
+
+    public static void setPatientText(ResponseGet result ){
+        SpannableString s1 = new SpannableString("환자 ID: "+result.getPatientId());
+        SpannableString s2 = new SpannableString("장소: "+result.getRoomNum());
+        SpannableString s3 = new SpannableString("시계 ID: "+result.getDeviceNum());
+
+        Spannable patientNum = (Spannable) s1;
+        Spannable roomNum = (Spannable) s2;
+        Spannable deviceNum = (Spannable) s3;
+        patientNumText.setText(patientNum);
+        patientRoomText.setText(roomNum);
+        watchNumText.setText(deviceNum);
+    }
+
 
     public static Context ApplicationContext(){
         return MainActivity.context;
