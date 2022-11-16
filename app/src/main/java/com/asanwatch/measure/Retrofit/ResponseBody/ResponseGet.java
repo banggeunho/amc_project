@@ -17,7 +17,7 @@ public class ResponseGet {
     private int bufferSize;
 
     @SerializedName("patientID")
-    private int patientId;
+    private Object patientId;
 
     @SerializedName("roomNum")
     private String roomNum;
@@ -51,8 +51,8 @@ public class ResponseGet {
         return this.bufferSize;
     }
 
-    public int getPatientId(){
-        return this.patientId;
+    public Object getPatientId(){
+        return this.patientId.toString();
     }
 
     public String getRoomNum() { return this.roomNum; }

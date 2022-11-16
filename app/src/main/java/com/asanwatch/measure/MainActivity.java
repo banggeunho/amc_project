@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Trace;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -39,6 +40,8 @@ import com.asanwatch.measure.Service.MeasureClass;
 import com.asanwatch.measure.Setting.SharedObjects;
 
 import org.w3c.dom.Text;
+
+import java.security.Signature;
 
 import retrofit2.Response;
 
@@ -139,6 +142,7 @@ public class MainActivity extends Activity {
         SharedObjects.retroClient.getSettingInfo(SharedObjects.deviceId, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
+                Toast.makeText(MainActivity.ApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT);
             }
 
             @Override
@@ -352,7 +356,7 @@ public class MainActivity extends Activity {
         SpannableString s1 = new SpannableString("환자 ID: "+result.getPatientId());
         SpannableString s2 = new SpannableString("장소: "+result.getRoomNum());
         SpannableString s3 = new SpannableString("시계 ID: "+result.getDeviceNum());
-
+//        Log.d(TAG, result.toString());
         Spannable patientNum = (Spannable) s1;
         Spannable roomNum = (Spannable) s2;
         Spannable deviceNum = (Spannable) s3;
